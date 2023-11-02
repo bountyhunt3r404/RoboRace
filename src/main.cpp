@@ -9,28 +9,28 @@
 #define enableA 13
 #define enableB 27
 
-#define A1_dir 32
-#define B1_dir 33
+#define A_DIR 32
+#define B_DIR 33
 
 int set_speed = 200;
 int const_limit = 5;
 
 
 void bot_stop() {
-  digitalWrite(A1_dir, 0);
+  digitalWrite(A_DIR, 0);
   analogWrite(enableB, 0);
 
-  digitalWrite(B1_dir, 0);
+  digitalWrite(B_DIR, 0);
   analogWrite(enableA, 0);
 }
 
 void left_track(int power) {
   int abs_power = abs(power);
    if (power>0){
-    digitalWrite(A1_dir, 1);
+    digitalWrite(A_DIR, 1);
    }
    else {
-    digitalWrite(A1_dir, 0);
+    digitalWrite(A_DIR, 0);
    }
 
    if (abs_power*2>240){
@@ -44,10 +44,10 @@ void left_track(int power) {
 void right_track(int power) {
   int abs_power = abs(power);
    if (power>0){
-    digitalWrite(B1_dir, 1);
+    digitalWrite(B_DIR, 1);
    }
    else { 
-    digitalWrite(B1_dir, 0);
+    digitalWrite(B_DIR, 0);
    }
    if (abs_power*2>240){
       abs_power = 127;
@@ -91,8 +91,8 @@ void setup() {
 
   pinMode(enableB, OUTPUT);
   pinMode(enableA, OUTPUT);
-  pinMode(A1_dir, OUTPUT);
-  pinMode(B1_dir, OUTPUT);
+  pinMode(A_DIR, OUTPUT);
+  pinMode(B_DIR, OUTPUT);
 
   Serial.println("Setup Complete");
 }
