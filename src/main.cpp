@@ -1,4 +1,5 @@
 #include <Arduino.h>
+
 #include <PS4Controller.h>
 
 /*Four Wheel Drive Using Cytron MDD10A motor driver
@@ -6,59 +7,59 @@
 
 
 //MOTOR PIN CONNECTIONS
-#define enableA 13
-#define enableB 27
+#define pwmA 13
+#define pwmB 27
 
-#define A_DIR 32
-#define B_DIR 33
+#define dirA 32
+#define dirB 33
 
-int set_speed = 200;
 int const_limit = 5;
 
-
+/* Function to stop the Bot*/
 void bot_stop() {
-  digitalWrite(A_DIR, 0);
-  analogWrite(enableB, 0);
+  digitalWrite(dirA, 0);
+  analogWrite(pwmB, 0);
 
-  digitalWrite(B_DIR, 0);
-  analogWrite(enableA, 0);
+  digitalWrite(dirB, 0);
+  analogWrite(pwmA, 0);
 }
 
+/* Function for movement of left track*/
 void left_track(int power) {
   int abs_power = abs(power);
    if (power>0){
-    digitalWrite(A_DIR, 1);
+    digitalWrite(dirA, 1);
    }
    else {
-    digitalWrite(A_DIR, 0);
+    digitalWrite(dirA, 0);
    }
 
    if (abs_power*2>240){
       abs_power = 127;
    }
-   analogWrite(enableA, abs_power*2);
+   analogWrite(pwmA, abs_power*2);
    Serial.printf("R_PWM: %d\t", abs_power*2);
 }
 
-
+/* Function for movement of right track*/
 void right_track(int power) {
   int abs_power = abs(power);
    if (power>0){
-    digitalWrite(B_DIR, 1);
+    digitalWrite(dirB, 1);
    }
    else { 
-    digitalWrite(B_DIR, 0);
+    digitalWrite(dirB, 0);
    }
    if (abs_power*2>240){
       abs_power = 127;
    }
 
-   analogWrite(enableB, abs_power*2);
+   analogWrite(pwmB, abs_power*2);
    Serial.printf("L_PWM: %d\n", abs_power*2);
 }
 
 
-
+/* Debugging PS4 Data*/
 void print_ps4_data(){
       Serial.printf("Left Stick x at %d: ", PS4.LStickX());
       Serial.printf("Left Stick y at %d: ", PS4.LStickY());
@@ -89,10 +90,10 @@ void setup() {
   PS4.begin("9C:B6:D0:90:37:C2");
   Serial.begin(115200);
 
-  pinMode(enableB, OUTPUT);
-  pinMode(enableA, OUTPUT);
-  pinMode(A_DIR, OUTPUT);
-  pinMode(B_DIR, OUTPUT);
+  pinMode(pwmB, OUTPUT);
+  pinMode(pwmA, OUTPUT);
+  pinMode(dirA, OUTPUT);
+  pinMode(dirB, OUTPUT);
 
   Serial.println("Setup Complete");
 }
@@ -110,15 +111,10 @@ void loop() {
 
     left_track(R_Y);
     right_track(L_Y);
-
-    
-
-
   }
 
   else{
     bot_stop();
     Serial.println("NO PS4");
   }
-
 }
