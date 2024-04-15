@@ -2,25 +2,30 @@
 
 #include <PS4Controller.h>
 
-/*Four Wheel Drive Using Cytron MDD10A motor driver
-  and ESP32 */
+/*Four Wheel Drive Using L298N motor driver and ESP32 */
 
 
 //MOTOR PIN CONNECTIONS
+// PWM PINS
 #define pwmA 13
 #define pwmB 27
 
-#define dirA 32
-#define dirB 33
+// DIR PINS
+#define dirA1 32
+#define dirA2 34
+#define dirB1 33
+#define dirB2 35
 
 int const_limit = 5;
 
 /* Function to stop the Bot*/
 void bot_stop() {
-  digitalWrite(dirA, 0);
+  digitalWrite(dirA1, 0);
+  digitalWrite(dirA2, 0);
   analogWrite(pwmB, 0);
 
-  digitalWrite(dirB, 0);
+  digitalWrite(dirB1, 0);
+  digitalWrite(dirB2, 0);
   analogWrite(pwmA, 0);
 }
 
@@ -28,10 +33,12 @@ void bot_stop() {
 void left_track(int power) {
   int abs_power = abs(power);
    if (power>0){
-    digitalWrite(dirA, 1);
+    digitalWrite(dirA1, 1);
+    digitalWrite(dirA2, 0);
    }
    else {
-    digitalWrite(dirA, 0);
+    digitalWrite(dirA1, 0);
+    digitalWrite(dirA2, 1);
    }
 
    if (abs_power*2>240){
@@ -45,15 +52,17 @@ void left_track(int power) {
 void right_track(int power) {
   int abs_power = abs(power);
    if (power>0){
-    digitalWrite(dirB, 1);
+    digitalWrite(dirB1, 1);
+    digitalWrite(dirB2, 0);
    }
    else { 
-    digitalWrite(dirB, 0);
+    digitalWrite(dirB1, 0);
+    digitalWrite(dirB2, 1);
    }
+
    if (abs_power*2>240){
       abs_power = 127;
    }
-
    analogWrite(pwmB, abs_power*2);
    Serial.printf("L_PWM: %d\n", abs_power*2);
 }
@@ -84,7 +93,6 @@ int dead_zone(int val, int limit = const_limit) {
 }
 
 
-
 void setup() {
   // put your setup code here, to run once:
   PS4.begin("9C:B6:D0:90:37:C2");
@@ -92,8 +100,11 @@ void setup() {
 
   pinMode(pwmB, OUTPUT);
   pinMode(pwmA, OUTPUT);
-  pinMode(dirA, OUTPUT);
-  pinMode(dirB, OUTPUT);
+
+  pinMode(dirA1, OUTPUT);
+  pinMode(dirA2, OUTPUT);
+  pinMode(dirB1, OUTPUT);
+  pinMode(dirB2, OUTPUT);
 
   Serial.println("Setup Complete");
 }
