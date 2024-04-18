@@ -38,7 +38,7 @@ void left_track(int power) {
       abs_power = 127;
    }
    analogWrite(pwmA, abs_power*2);
-   Serial.printf("R_PWM: %d\t", abs_power*2);
+   Serial.printf("L_PWM: %d\t", abs_power*2);
 }
 
 /* Function for movement of right track*/
@@ -55,7 +55,7 @@ void right_track(int power) {
    }
 
    analogWrite(pwmB, abs_power*2);
-   Serial.printf("L_PWM: %d\n", abs_power*2);
+   Serial.printf("R_PWM: %d\n", abs_power*2);
 }
 
 
@@ -109,8 +109,8 @@ void loop() {
 
     //Serial.printf("%d, %d\n", L_Y, R_Y);
 
-    left_track(R_Y);
-    right_track(L_Y);
+    left_track(L_Y);
+    right_track(R_Y);
   }
 
   else{
