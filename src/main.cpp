@@ -9,17 +9,17 @@
 
 //MOTOR PIN CONNECTIONS
 // PWM PINS
-#define pwmA 13
-#define pwmB 27
+#define pwmA 0
+#define pwmB 1
 
 // DIR PINS
-#define dirA1 32
-#define dirA2 34
-#define dirB1 33
-#define dirB2 35
+#define dirA1 2
+#define dirA2 3
+#define dirB1 27
+#define dirB2 26
 
 int const_limit = 5;
-const char ps4_mac_add[18] = "9C:B6:D0:90:37:C2";     // Change your PS4 Mac Address Here !!!
+const char ps4_mac_add[18] = "D8:3A:DD:C5:E5:7A";     // Change your PS4 Mac Address Here !!!
 
 // Function Declaration
 void bot_stop(void);
@@ -57,8 +57,8 @@ void loop() {
 
     //Serial.printf("%d, %d\n", L_Y, R_Y);
 
-    l_track(R_Y);
-    r_track(L_Y);
+    l_track(L_Y);
+    r_track(R_Y);
   }
 
   else{
@@ -97,7 +97,7 @@ void l_track(int power) {
       abs_power = 127;
    }
    analogWrite(pwmA, abs_power*2);
-   Serial.printf("R_PWM: %d\t", abs_power*2);
+   Serial.printf("L_PWM: %d\t", abs_power*2);
 }
 
 /* Function for movement of right track*/
@@ -116,7 +116,7 @@ void r_track(int power) {
       abs_power = 127;
    }
    analogWrite(pwmB, abs_power*2);
-   Serial.printf("L_PWM: %d\n", abs_power*2);
+   Serial.printf("R_PWM: %d\n", abs_power*2);
 }
 
 
