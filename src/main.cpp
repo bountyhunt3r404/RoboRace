@@ -9,17 +9,26 @@
 
 //MOTOR PIN CONNECTIONS
 // PWM PINS
-#define pwmA 0
-#define pwmB 1
+#define pwmA 32
+#define pwmB 14
 
 // DIR PINS
-#define dirA1 2
-#define dirA2 3
+#define dirA1 25
+#define dirA2 33
 #define dirB1 27
 #define dirB2 26
 
 int const_limit = 5;
-const char ps4_mac_add[18] = "D8:3A:DD:C5:E5:7A";     // Change your PS4 Mac Address Here !!!
+
+
+/*  MAC ADDRESS OF PS4
+
+RED PS4: D8:3A:DD:C5:E5:7A
+BLUE PS4: 2C:CF:67:00:0F:F2
+BLACK PS4: 48:E7:DA:44:75:08
+*/
+const char ps4_mac_add[18] = "2C:CF:67:00:0F:F2";     // Change your PS4 Mac Address Here !!!
+
 
 // Function Declaration
 void bot_stop(void);
@@ -55,7 +64,7 @@ void loop() {
     int L_Y = dead_zone(PS4.LStickY());
     int R_Y = dead_zone(PS4.RStickY());
 
-    //Serial.printf("%d, %d\n", L_Y, R_Y);
+    Serial.printf("%d, %d\t", L_Y, R_Y);
 
     l_track(L_Y);
     r_track(R_Y);
